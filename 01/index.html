@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>1. practice</title>
+  </head>
+  <body>
+    <h1>1. practice</h1>
+    <script type="text/javascript">
+      console.log('Hello World!');
+
+      let number = 42;
+
+      let text = '42';
+
+      let logical = true;
+
+      let unassigned = null;
+
+      console.log(number);
+      console.log(text);
+      console.log(logical);
+      console.log(unassigned);
+      console.log(null);
+
+      if (number === text) {
+        console.log('isTrue');
+      }
+
+      let numbers = [ 1, 2, -3, 5, 68, 42, 100, -4, 10 ];
+      let numbers2 = [ 1, 2, 3, 5, 68, 42, 100, -4, 10 ];
+      let numbers3 = [ 1, 2, 3, 5, 68, 42, 100, 4, 10 ];
+
+      let i = 0;
+      while(numbers[i] >= 0 && i < numbers.length){
+        i++;
+      }
+      console.log(numbers[i]);
+
+      function getFirstNegativeNumberFromArray(t) {
+        for (let item of t) {
+          if (item < 0) {
+            return item;
+          }
+        }
+      }
+      console.log(getFirstNegativeNumberFromArray(numbers));
+
+      function getAllNegativeNumbersFromArray(t) {
+        let negativeNumbers = [];
+
+        for (let item of t) {
+          if (item < 0) {
+            negativeNumbers.push(item);
+          }
+        }
+
+        return negativeNumbers;
+      }
+
+      console.log(getAllNegativeNumbersFromArray(numbers));
+      console.log(getAllNegativeNumbersFromArray(numbers2));
+      console.log(getAllNegativeNumbersFromArray(numbers3));
+
+      function filter(t, cond) {
+        let result = [];
+
+        for (let item of t) {
+          if (cond(item)) {
+            result.push(item);
+          }
+        }
+
+        return result;
+      }
+
+      console.log(filter(numbers, function(x) {
+        return x < 0;
+      }));
+
+      console.log(filter(numbers, (x) => (x < 0)));
+
+
+      console.log(numbers.filter((x) => (x < 0)));
+      console.log(numbers.find((x) => (x < 0)));
+
+      // Sum
+      //let sum = numbers.reduce((pv, cv) => ( pv + cv ));
+      let sum = numbers.reduce((pv, cv) => {
+        console.log(pv, cv);
+        return pv + cv;
+      });
+      console.log(sum);
+
+      let max = numbers.reduce((pv , cv) => (pv < cv ? cv : pv));
+      console.log(max);
+      
+      let movie = {
+        title: 'Bad Taste',
+        year: 1987,
+        director: 'Peter Jackson'
+      }
+      let movie2 = {
+        title: 'Avengers',
+        year: 2012 ,
+        director: 'Joss Whedon'
+      }
+      let movie3 = {
+        title: 'Deadpool funny adventure with Hello Kitty',
+        year: 2020,
+        director: 'Unknown'
+      }
+      console.log(movie.title);
+      let movies = [ movie, movie2, movie3 ];
+
+      movies.forEach(movie => {
+        console.log(movie.title);
+      });
+
+      console.log(movies.map((movie) => (movie.title)));
+
+      let maxYear = movies
+          .reduce((pMovie , cMovie) => (pMovie.year < cMovie.year ? cMovie : pMovie))
+          .year;
+
+      let x = movies
+        .filter(x => x.year == maxYear)
+        .map((movie) => (movie.director));
+
+      console.log(x);
+
+
+
+
+      
+    </script>
+  </body>
+</html>
+
