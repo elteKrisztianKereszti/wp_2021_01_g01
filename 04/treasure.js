@@ -1,7 +1,14 @@
 let map = document.querySelector('#map');
 map.addEventListener('click', onMapClick);
 let treasureLocation= { x: 0, y: 0};
+let missClickCounter = 0;
 
+let sizeInput = document.querySelector('#size');
+let newGameBtn = document.querySelector('#newGame');
+let missClick = document.querySelector('#missClick');
+newGameBtn.addEventListener('click', () => {
+  initGame(sizeInput.value)
+});
 
 function onMapClick(event) {
   if (event.target.className.indexOf('cell') !== -1) {
@@ -10,16 +17,19 @@ function onMapClick(event) {
     if (x == treasureLocation.x && y == treasureLocation.y) {
       console.log(x, y, treasureLocation);
       event.target.innerHTML = "#T";
+      setTimeout(() => {
+        initGame(sizeInput.value);
+      }, 2000);
+    }
+    else {
+      missClick.innerHTML = ++missClickCounter;
     }
   }
 }
 
-function initGame() {
-  // 2x2
-  const size = 2;
-
-  treasureLocation.x = Math.floor(Math.random() * size);
-  treasureLocation.y = Math.floor(Math.random() * size);
+function initGame(size) {
+  treasureLocation.x = Math.floor(Math.random() * (0+size));
+  treasureLocation.y = Math.floor(Math.random() * (0+size));
   console.log(treasureLocation);
 
   let innerHtml = '';
@@ -31,6 +41,6 @@ function initGame() {
     innerHtml += '</tr>';
   }
   map.innerHTML = innerHtml;
+  missClickCounter = 0;
 }
 
-initGame();
