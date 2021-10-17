@@ -1,27 +1,23 @@
 let grid = {
-  height: 0,
-  width: 0,
-  table: [],
+  id:0,
+  pixels: [],
   currentColor: '#ff0000',
   generate: function(width, height) {
-    this.table = [];
+    this.pixels = [];
     for (let x = 0; x < height ; ++x) {
       let row = [];
       for (let y = 0; y < width; ++y) {
         row.push(undefined);
       }
-      this.table.push(row);
+      this.pixels.push(row);
     }
-  
-    this.height = height;
-    this.width = width;  
+    this.id = 0;
   },
   setColor: function(x, y) {
-    this.table[x][y] = this.currentColor;
+    this.pixels[x][y] = this.currentColor;
   },
-  clearColor: function(x, y) {
-    
-    this.table[x][y] = undefined;
+  clearColor: function(x, y) {    
+    this.pixels[x][y] = undefined;
   },
   setCurrentColor: function(newColor) {
     this.currentColor = newColor;
@@ -54,17 +50,51 @@ let heightWidth = document.querySelector('#height');
 let previewGrid = document.querySelector('#previewGrid');
 let editGrid = document.querySelector('#editGrid');
 let inputColor = document.querySelector('#inputColor');
+let pixelArtsUl = document.querySelector('#pixel-arts');
 
 let btnSave = document.querySelector('#btnSave');
 btnSave.addEventListener('click', onSaveClick);
+pixelArtsUl.addEventListener('click', onPixelArtsUlClick);
+
+function onPixelArtsUlClick(event) {
+  if (event.target.tagName === 'UL') {
+    return;
+  }
+
+  // look for LI => go up to LI
+  let currentElement = event.target;
+  while (currentElement.tagName !== 'LI') {
+    currentElement = currentElement.parentElement;
+  }
+
+  let pixelArtId = currentElement.getAttribute('pixel-art-id');
+  loadPixelArt(pixelArtId);
+}
+
+function loadPixelArt(pixelArtId) {
+
+  let pixelArt = pixelArts.find(pa => pa.id == pixelArtId);
+
+  grid.pixels = JSON.parse(JSON.stringify(pixelArt.pixels));
+  grid.id = pixelArt.id;
+
+  render();
+}
+
 function onSaveClick() {
-  pixelArts.push({
-    id: new Date(),
-    // 'Deepcopy'
-    pixels: JSON.parse(JSON.stringify(grid.table)),
-  });
+  if (grid.id != 0) {
+    let pixelArt = pixelArts.find(pa => pa.id == grid.id);
+    pixelArt.pixels = JSON.parse(JSON.stringify(grid.pixels));
+  }
+  else {
+    pixelArts.push({
+      id: Date.now(),
+      pixels: JSON.parse(JSON.stringify(grid.pixels)),
+    });
+  }[]
 
   localStorage['pixelArts'] = JSON.stringify(pixelArts);
+  listAllPixelArts();
 }
 
 
@@ -90,7 +120,6 @@ function onEditGridClick(event) {
 }
 
 function onEditGridContextMenu(event) {
-  // TODO
   if (event.target.tagName !== 'TD') {
     return;
   }
@@ -114,17 +143,35 @@ function getGridParameters(event) {
 }
 
 function render() {
-  let tableInnerHtml = '';
-  for (let rowIndex = 0; rowIndex < grid.height; ++rowIndex ) {
-    tableInnerHtml += '<tr>';
-    for (let columnIndex = 0; columnIndex < grid.width; ++columnIndex ) {
-      tableInnerHtml += '<td style="background-color: ' + grid.table[rowIndex][columnIndex]+ '" data-row=' + rowIndex + ' data-column=' + columnIndex + '></td>'
-    }
-    tableInnerHtml += '</tr>'
-  }
+  let tableInnerHtml =  generateTableContent(grid.pixels);
   previewGrid.innerHTML = tableInnerHtml;
   editGrid.innerHTML = tableInnerHtml;
 
   inputColor.value = grid.currentColor;
 }
 
+function generateTableContent(pixels) {
+  let tableInnerHtml = '';
+  for (let rowIndex = 0; rowIndex < pixels.length; ++rowIndex ) {
+    tableInnerHtml += '<tr>';
+    for (let columnIndex = 0; columnIndex < pixels[0].length; ++columnIndex ) {
+      tableInnerHtml += '<td style="background-color: ' + pixels[rowIndex][columnIndex]+ '" data-row=' + rowIndex + ' data-column=' + columnIndex + '></td>'
+    }
+    tableInnerHtml += '</tr>'
+  }
+  return tableInnerHtml;
+}
+
+function listAllPixelArts() {
+  let ulContent = '';
+  
+  pixelArts.forEach((pixelArt) => {
+    ulContent += '<li pixel-art-id=' + pixelArt.id + '>';
+    ulContent += '<table>' + generateTableContent(pixelArt.pixels) + '</table>';
+    ulContent += '</li>';
+  })
+
+  pixelArtsUl.innerHTML = ulContent;
+}
+
+listAllPixelArts();
