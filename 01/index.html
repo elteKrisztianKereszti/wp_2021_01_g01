@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>1. practice</title>
   </head>
   <body>
     <h1>1. practice</h1>
     <script type="text/javascript">
-      console.log('Hello World!');
+      // Basics
+      console.log("Hello World!");
 
       let number = 42;
 
-      let text = '42';
+      let text = "42";
 
       let logical = true;
 
@@ -24,15 +25,15 @@
       console.log(null);
 
       if (number === text) {
-        console.log('isTrue');
+        console.log("isTrue");
       }
 
-      let numbers = [ 1, 2, -3, 5, 68, 42, 100, -4, 10 ];
-      let numbers2 = [ 1, 2, 3, 5, 68, 42, 100, -4, 10 ];
-      let numbers3 = [ 1, 2, 3, 5, 68, 42, 100, 4, 10 ];
+      let numbers = [1, 2, -3, 5, 68, 42, 100, -4, 10];
+      let numbers2 = [1, 2, 3, 5, 68, 42, 100, -4, 10];
+      let numbers3 = [1, 2, 3, 5, 68, 42, 100, 4, 10];
 
       let i = 0;
-      while(numbers[i] >= 0 && i < numbers.length){
+      while (numbers[i] >= 0 && i < numbers.length) {
         i++;
       }
       console.log(numbers[i]);
@@ -74,15 +75,16 @@
         return result;
       }
 
-      console.log(filter(numbers, function(x) {
-        return x < 0;
-      }));
+      console.log(
+        filter(numbers, function (x) {
+          return x < 0;
+        })
+      );
 
-      console.log(filter(numbers, (x) => (x < 0)));
+      console.log(filter(numbers, (x) => x < 0));
 
-
-      console.log(numbers.filter((x) => (x < 0)));
-      console.log(numbers.find((x) => (x < 0)));
+      console.log(numbers.filter((x) => x < 0));
+      console.log(numbers.find((x) => x < 0));
 
       // Sum
       //let sum = numbers.reduce((pv, cv) => ( pv + cv ));
@@ -92,48 +94,106 @@
       });
       console.log(sum);
 
-      let max = numbers.reduce((pv , cv) => (pv < cv ? cv : pv));
+      let max = numbers.reduce((pv, cv) => (pv < cv ? cv : pv));
       console.log(max);
-      
-      let movie = {
-        title: 'Bad Taste',
-        year: 1987,
-        director: 'Peter Jackson'
-      }
-      let movie2 = {
-        title: 'Avengers',
-        year: 2012 ,
-        director: 'Joss Whedon'
-      }
-      let movie3 = {
-        title: 'Deadpool funny adventure with Hello Kitty',
-        year: 2020,
-        director: 'Unknown'
-      }
-      console.log(movie.title);
-      let movies = [ movie, movie2, movie3 ];
 
-      movies.forEach(movie => {
+      let movie = {
+        title: "Bad Taste",
+        year: 1987,
+        director: "Peter Jackson",
+      };
+      let movie2 = {
+        title: "Avengers",
+        year: 2012,
+        director: "Joss Whedon",
+      };
+      let movie3 = {
+        title: "Deadpool funny adventure with Hello Kitty",
+        year: 2020,
+        director: "Unknown",
+      };
+      console.log(movie.title);
+      let movies = [movie, movie2, movie3];
+
+      movies.forEach((movie) => {
         console.log(movie.title);
       });
 
-      console.log(movies.map((movie) => (movie.title)));
+      console.log(movies.map((movie) => movie.title));
 
-      let maxYear = movies
-          .reduce((pMovie , cMovie) => (pMovie.year < cMovie.year ? cMovie : pMovie))
-          .year;
+      let maxYear = movies.reduce((pMovie, cMovie) => (pMovie.year < cMovie.year ? cMovie : pMovie)).year;
 
-      let x = movies
-        .filter(x => x.year == maxYear)
-        .map((movie) => (movie.director));
+      let x = movies.filter((x) => x.year == maxYear).map((movie) => movie.director);
 
       console.log(x);
 
+      // 2.
 
+      let name = "Krisztián Kereszti";
 
+      // a. Welcome yourself in an h1 tag!
+      document.writeln("<h1>" + name + "</h1>");
 
-      
+      // b. The isLoggedIn variable shows whether the user is logged in or not.
+      //    If the user is logged in, generate a welcome message and a logout link.
+      //    If not, generate a login link. Wrap the generated HTML string with a div element.
+
+      // let isLoggedIn = true;
+      let isLoggedIn = false;
+      let divInnerHtml = "";
+      if (isLoggedIn) {
+        divInnerHtml += "<p>Hello " + name + "!</p>";
+        divInnerHtml += '<a href="#">Logout</a>';
+      } else {
+        divInnerHtml += '<a href="#">Login</a>';
+      }
+      let divTag = "<div>" + divInnerHtml + "</div>";
+      document.writeln(divTag);
+
+      // c. An array of names is given. Generate an unordered list from it!
+      let names = ["Jim Raynor", "Arcturus Mengsk", "Sarah Kerrigan", "Edmund Duke", "Tassadar", "Zeratul", "Artanist"];
+      let lis = "";
+      names.forEach((name) => (lis += "<li>" + name + "</li>"));
+      let ul = "<ul>" + lis + "</ul>";
+      document.writeln(ul);
+
+      // d. An array of student data is given. Student data stores the Neptun id, the name and the date of birth of the student. Generate an HTML table from this array!
+      let student1 = {
+        name: "Jim Raynor",
+        neptun: "JIMRAY",
+        dateOfBirth: new Date(1980, 12, 1),
+      };
+      let student2 = {
+        name: "Sarah Kerrigan",
+        neptun: "SARKER",
+        dateOfBirth: new Date(1990, 4, 6),
+      };
+      let student3 = {
+        name: "Tassadar",
+        neptun: "TSSDR1",
+        dateOfBirth: new Date(1950, 6, 12),
+      };
+      let student4 = {
+        name: "Artanist",
+        neptun: "RTNST1",
+        dateOfBirth: new Date(1980, 5, 16),
+      };
+
+      let students = [student1, student2, student3, student4];
+      console.log(students);
+
+      let tableInnerHtml = '';
+      students.forEach((student) => {
+        tableInnerHtml += '<tr>';
+        tableInnerHtml += '<td style="border: 1px solid black">' + student.name + '</td>';
+        tableInnerHtml += '<td style="border: 1px solid black">' + student.neptun + '</td>';
+        tableInnerHtml += '<td style="border: 1px solid black">' + student.dateOfBirth + '</td>';
+        tableInnerHtml += '</tr>';
+
+      })
+      let table = '<table style="border: 1px solid black">' + tableInnerHtml + '</table>';
+      document.writeln(table);
+
     </script>
   </body>
 </html>
-
